@@ -56,20 +56,22 @@ export async function registerStudent(data) {
     );
   }
 
+  const conditions = [{ email: { equals: data.email, mode: "insensitive" } }];
+  if (data.studentId) {
+    conditions.push({ studentId: data.studentId });
+  }
+
   const existing = await prisma.user.findFirst({
-    where: {
-      OR: [
-        { email: { equals: data.email, mode: "insensitive" } },
-        { studentId: data.studentId },
-      ],
-    },
+    where: { OR: conditions },
     select: { email: true, studentId: true },
   });
   if (existing) {
     if (existing.email?.toLowerCase() === data.email.toLowerCase()) {
       throw ApiError.conflict("EMAIL_TAKEN", "An account with this email already exists.");
     }
-    throw ApiError.conflict("STUDENT_ID_TAKEN", "This student ID is already registered.");
+    if (data.studentId && existing.studentId === data.studentId) {
+      throw ApiError.conflict("STUDENT_ID_TAKEN", "This student ID is already registered.");
+    }
   }
 
   const passwordHash = await bcrypt.hash(data.password, BCRYPT_ROUNDS);
@@ -77,7 +79,7 @@ export async function registerStudent(data) {
     data: {
       fullName: data.fullName,
       email: data.email.toLowerCase(),
-      studentId: data.studentId,
+      studentId: data.studentId || null,
       phone: data.phone ?? null,
       course: data.course ?? null,
       yearOfStudy: data.yearOfStudy ?? null,

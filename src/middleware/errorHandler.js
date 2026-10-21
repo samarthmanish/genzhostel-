@@ -34,7 +34,7 @@ export function errorHandler(err, req, res, next) {
     });
   }
 
-  // Prisma known errors → friendly codes (no raw DB internals exposed)
+  // Prisma known errors → friendly codes
   if (err?.code === "P2002") {
     return res.status(409).json({
       error: { code: "DUPLICATE_RECORD", message: "A record with the same unique value already exists." },
@@ -50,6 +50,16 @@ export function errorHandler(err, req, res, next) {
       error: { code: "INVALID_REFERENCE", message: "A referenced record does not exist." },
     });
   }
+  if (err?.code === "P2021") {
+    return res.status(503).json({
+      error: { code: "DATABASE_NOT_MIGRATED", message: "Database tables are not set up yet. Please run migrations ('npm run db:deploy')." },
+    });
+  }
+  if (err?.code === "P1001" || err?.name === "PrismaClientInitializationError") {
+    return res.status(503).json({
+      error: { code: "DATABASE_UNREACHABLE", message: "Cannot connect to the database. Please verify DATABASE_URL and ensure your PostgreSQL server is active." },
+    });
+  }
 
   // Malformed JSON body
   if (err?.type === "entity.parse.failed") {
@@ -60,7 +70,11 @@ export function errorHandler(err, req, res, next) {
 
   // Unexpected error — log server-side only
   console.error(`[error] ${req.method} ${req.originalUrl}:`, err);
+  const isDev = process.env.NODE_ENV !== "production";
   return res.status(500).json({
-    error: { code: "INTERNAL_ERROR", message: "Something went wrong on the server. Please try again." },
+    error: {
+      code: "INTERNAL_ERROR",
+      message: isDev && err?.message ? err.message : "Something went wrong on the server. Please check database connection.",
+    },
   });
 }

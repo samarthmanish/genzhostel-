@@ -74,11 +74,16 @@ export function sameOriginGuard(req, res, next) {
   const origin = req.headers.origin || (req.headers.referer ? new URL(req.headers.referer).origin : null);
   if (origin) {
     const expected = new URL(config.APP_BASE_URL).origin;
-    // In dev, also allow localhost on any port to keep local workflows simple.
     const originUrl = new URL(origin);
+    const host = req.headers["x-forwarded-host"] || req.headers.host;
+    const isSameHost = host && (originUrl.host === host || originUrl.hostname === host);
+    const isVercel = originUrl.hostname.endsWith(".vercel.app");
+    const isLocalhost = originUrl.hostname === "localhost" || originUrl.hostname === "127.0.0.1";
     const allowed =
       origin === expected ||
-      (config.NODE_ENV !== "production" && originUrl.hostname === "localhost");
+      isSameHost ||
+      isVercel ||
+      (config.NODE_ENV !== "production" && isLocalhost);
     if (!allowed) {
       return next(ApiError.forbidden("CSRF_REJECTED", "Cross-origin request rejected."));
     }

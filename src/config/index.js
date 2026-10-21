@@ -1,10 +1,14 @@
 import "dotenv/config";
 import { z } from "zod";
 
+const defaultBaseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().min(1).max(65535).default(3000),
-  APP_BASE_URL: z.string().url().default("http://localhost:3000"),
+  APP_BASE_URL: z.string().url().default(defaultBaseUrl),
   DATABASE_URL: z.string().min(10, "DATABASE_URL must be a valid postgresql:// connection string"),
   SESSION_SECRET: z.string().min(16, "SESSION_SECRET must be at least 16 characters"),
   SESSION_TTL_HOURS: z.coerce.number().int().min(1).max(720).default(8),

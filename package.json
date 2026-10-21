@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "nodemon src/server.js",
+    "build": "prisma generate",
     "start": "node src/server.js",
     "test": "node --test --test-concurrency=1 tests/api/",
     "test:api": "node --test tests/api/",

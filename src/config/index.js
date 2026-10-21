@@ -1,9 +1,8 @@
 import "dotenv/config";
 import { z } from "zod";
 
-const defaultBaseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+const defaultBaseUrl = process.env.RENDER_EXTERNAL_URL
+  || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),

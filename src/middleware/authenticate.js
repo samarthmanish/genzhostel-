@@ -78,11 +78,13 @@ export function sameOriginGuard(req, res, next) {
     const host = req.headers["x-forwarded-host"] || req.headers.host;
     const isSameHost = host && (originUrl.host === host || originUrl.hostname === host);
     const isVercel = originUrl.hostname.endsWith(".vercel.app");
+    const isRender = originUrl.hostname.endsWith(".onrender.com");
     const isLocalhost = originUrl.hostname === "localhost" || originUrl.hostname === "127.0.0.1";
     const allowed =
       origin === expected ||
       isSameHost ||
       isVercel ||
+      isRender ||
       (config.NODE_ENV !== "production" && isLocalhost);
     if (!allowed) {
       return next(ApiError.forbidden("CSRF_REJECTED", "Cross-origin request rejected."));

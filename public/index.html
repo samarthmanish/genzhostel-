@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hostel Management System — room allocation, complaint tracking, and student support in one organized place.">
+  <title>Hostel Management System</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <script src="/js/theme.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a class="site-logo" href="/" aria-label="Hostel Management System home">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="2.5" y="4" width="19" height="16" rx="4" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M8 20V9.5A2.5 2.5 0 0 1 10.5 7h3A2.5 2.5 0 0 1 16 9.5V20" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="12" cy="12.5" r="1.6" fill="currentColor"/>
+        </svg>
+        Hostel System
+      </a>
+      <nav class="site-nav" aria-label="Public navigation">
+        <a href="/">Home</a>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+        <a href="/login.html">Sign In</a>
+        <a class="btn btn-primary btn-sm" href="/login.html">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container">
+        <span class="eyebrow">
+          <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="7.8"/><path d="M10 6.4v4m0 2.4v.4"/></svg>
+          College mini-project · Full-stack demo
+        </span>
+        <h1>Hostel life, better organized.</h1>
+        <p class="hero-sub">
+          One place for room allocation, complaint tracking, and student records —
+          replacing paper registers with a clear, live system that students and hostel
+          staff can actually rely on.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="/login.html">Sign in</a>
+          <a class="btn btn-secondary btn-lg" href="#features">Explore features</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-head">
+          <h2>Everything the hostel office needs</h2>
+          <p>Four connected modules, one database, real-time status for everyone.</p>
+        </div>
+        <div class="grid grid-4">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="12.5" r="3.5"/><path d="M10 10 18 2m-3 0h3v3"/></svg>
+            </div>
+            <h3>Room Allocation</h3>
+            <p>Students request rooms and track status. Wardens approve, assign, transfer, or vacate — with capacity checks that prevent double-booking.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 18.7 17H1.3zM10 7v5m0 2.2v.3"/></svg>
+            </div>
+            <h3>Complaint Tracking</h3>
+            <p>Maintenance, water, Wi-Fi, cleanliness — submit once, follow every update from Submitted to Resolved, with a full response history.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="3"/><path d="M1.5 18c.8-3 3-4.5 5.5-4.5S11.7 15 12.5 18M13 5.2a3 3 0 0 1 0 5.6M15 13.8c1.7.5 3 1.9 3.5 4.2"/></svg>
+            </div>
+            <h3>Student Dashboard</h3>
+            <p>A calm overview of your room, requests, and complaints — plus quick actions to get things done without hunting through menus.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 12.5a5.5 5.5 0 0 1-5.5 5.5H7l-4 3v-4.2A5.5 5.5 0 0 1 4.5 7h8A5.5 5.5 0 0 1 18 12.5z"/></svg>
+            </div>
+            <h3>Smart Help</h3>
+            <p>A built-in assistant answers FAQs, explains statuses, and shows your own allocation or complaint status — safely, without exposing anyone else's data.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-preview">
+      <div class="container">
+        <div class="card" style="padding:var(--space-6)">
+          <span class="preview-note">
+            <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="7.8"/><path d="M10 8.8v5.4M10 5.9v.4"/></svg>
+            Demo preview — illustrative numbers, not live data. Live statistics appear after sign-in.
+          </span>
+          <h2 style="margin-bottom:var(--space-5)">What staff see after signing in</h2>
+          <div class="preview-stats" aria-label="Example dashboard statistics">
+            <div class="stat-card"><div class="stat-label">Total rooms</div><div class="stat-value">32</div><div class="stat-help">across 3 blocks</div></div>
+            <div class="stat-card"><div class="stat-label">Available beds</div><div class="stat-value">41</div><div class="stat-help">live from allocations</div></div>
+            <div class="stat-card"><div class="stat-label">Pending requests</div><div class="stat-value">2</div><div class="stat-help">awaiting warden review</div></div>
+            <div class="stat-card"><div class="stat-label">Open complaints</div><div class="stat-value">2</div><div class="stat-help">1 in progress</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <h2>Built as a complete, working system</h2>
+            <p class="text-muted" style="max-width:520px">
+              This is a college mini-project demonstrating a full stack: an HTML/CSS/JavaScript
+              frontend, a Node.js + Express REST API, PostgreSQL persistence with Prisma,
+              secure cookie-based authentication, role-based access control, and a rule-based
+              help assistant — all working together end to end.
+            </p>
+            <ul class="about-points">
+              <li><span class="point-icon" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3.5 10.5 4.5 4.5 9-10"/></svg></span> Roles for Students, Wardens, and Admins with server-side authorization</li>
+              <li><span class="point-icon" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3.5 10.5 4.5 4.5 9-10"/></svg></span> Transaction-safe room allocation — the last bed can never be double-booked</li>
+              <li><span class="point-icon" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3.5 10.5 4.5 4.5 9-10"/></svg></span> Complaint workflow with student-visible updates and internal staff notes</li>
+              <li><span class="point-icon" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3.5 10.5 4.5 4.5 9-10"/></svg></span> Reports and CSV exports computed from the real database</li>
+            </ul>
+          </div>
+          <div class="card" aria-label="Technology stack">
+            <h3>Technology stack</h3>
+            <dl class="detail-list">
+              <dt>Frontend</dt><dd>HTML5 · CSS3 · Vanilla JavaScript (ES modules)</dd>
+              <dt>Backend</dt><dd>Node.js · Express · REST API</dd>
+              <dt>Database</dt><dd>PostgreSQL · Prisma ORM</dd>
+              <dt>Auth</dt><dd>bcrypt · HTTP-only session cookies · RBAC</dd>
+              <dt>Assistant</dt><dd>Rule-based FAQ chatbot (no paid API required)</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div>
+        <strong>Hostel Management System</strong><br>
+        A college mini-project · demonstration software with sample data.<br>
+        Not affiliated with or endorsed by any specific college or hostel.
+      </div>
+      <div>
+        Support: <span id="support-contact">hostel.office@example.edu</span><br>
+        <a href="/login.html">Staff &amp; student sign in</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/pages/landing.js"></script>
+</body>
+</html>

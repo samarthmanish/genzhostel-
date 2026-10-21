@@ -1,0 +1,264 @@
+// Prisma schema — Hostel Management System
+// PostgreSQL. UUID string primary keys, enums for statuses, timestamps on mutable records.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  WARDEN
+  ADMIN
+}
+
+enum RoomStatus {
+  AVAILABLE
+  FULL
+  MAINTENANCE
+  INACTIVE
+}
+
+enum AllocationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  ACTIVE
+  VACATED
+  CANCELLED
+}
+
+enum ComplaintCategory {
+  MAINTENANCE
+  CLEANLINESS
+  WATER
+  ELECTRICITY
+  WIFI
+  SECURITY
+  OTHER
+}
+
+enum ComplaintPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum ComplaintStatus {
+  SUBMITTED
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+  REOPENED
+}
+
+enum CommentVisibility {
+  STUDENT_VISIBLE
+  INTERNAL
+}
+
+model User {
+  id           String   @id @default(uuid())
+  fullName     String
+  email        String   @unique
+  studentId    String?  @unique // null for staff
+  phone        String?
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  course       String? // student-only info
+  yearOfStudy  Int?
+  passwordHash String
+  role         Role     @default(STUDENT)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  allocations        Allocation[]       @relation("StudentAllocations")
+  decisionsMade      Allocation[]       @relation("AllocationDecider")
+  complaints         Complaint[]        @relation("ComplaintAuthor")
+  assignedComplaints Complaint[]        @relation("ComplaintAssignee")
+  comments           ComplaintComment[]
+  allocationHistory  AllocationHistory[]
+  complaintHistory   ComplaintHistory[]
+  auditLogs          AuditLog[]
+
+  @@index([role])
+  @@index([isActive])
+  @@map("users")
+}
+
+model HostelBlock {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  rooms Room[]
+
+  @@map("hostel_blocks")
+}
+
+model Room {
+  id         String     @id @default(uuid())
+  blockId    String
+  roomNumber String
+  floor      Int
+  roomType   String // e.g. SINGLE, DOUBLE, TRIPLE, DORMITORY
+  capacity   Int
+  status     RoomStatus @default(AVAILABLE)
+  amenities  String[]   @default([])
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  block       HostelBlock @relation(fields: [blockId], references: [id])
+  allocations Allocation[]
+  complaints  Complaint[]
+
+  @@unique([blockId, roomNumber])
+  @@index([blockId])
+  @@index([status])
+  @@map("rooms")
+}
+
+model Allocation {
+  id             String           @id @default(uuid())
+  studentId      String
+  roomId         String? // null until a room is assigned
+  status         AllocationStatus @default(PENDING)
+  preferenceNote String? // student's stated preferences in the request
+  requestedAt    DateTime         @default(now())
+  decidedAt      DateTime?
+  decidedById    String?
+  decisionReason String?
+  startDate      DateTime?
+  endDate        DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  student User  @relation("StudentAllocations", fields: [studentId], references: [id])
+  room    Room? @relation(fields: [roomId], references: [id])
+  decidedBy User? @relation("AllocationDecider", fields: [decidedById], references: [id])
+  history AllocationHistory[]
+
+  @@index([studentId])
+  @@index([status])
+  @@index([roomId])
+  @@map("allocations")
+}
+
+model Complaint {
+  id          String            @id @default(uuid())
+  studentId   String
+  roomId      String?
+  title       String
+  category    ComplaintCategory
+  description String
+  priority    ComplaintPriority @default(NORMAL)
+  status      ComplaintStatus   @default(SUBMITTED)
+  assignedToId String?
+  submittedAt DateTime          @default(now())
+  resolvedAt  DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  student    User  @relation("ComplaintAuthor", fields: [studentId], references: [id])
+  room       Room? @relation(fields: [roomId], references: [id])
+  assignedTo User? @relation("ComplaintAssignee", fields: [assignedToId], references: [id])
+  comments   ComplaintComment[]
+  history    ComplaintHistory[]
+
+  @@index([studentId])
+  @@index([status])
+  @@index([category])
+  @@index([assignedToId])
+  @@index([submittedAt])
+  @@map("complaints")
+}
+
+model ComplaintComment {
+  id          String            @id @default(uuid())
+  complaintId String
+  authorId    String
+  message     String
+  visibility  CommentVisibility @default(STUDENT_VISIBLE)
+  createdAt   DateTime          @default(now())
+
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  author    User      @relation(fields: [authorId], references: [id])
+
+  @@index([complaintId])
+  @@map("complaint_comments")
+}
+
+model AllocationHistory {
+  id             String           @id @default(uuid())
+  allocationId   String
+  actorId        String?
+  action         String // REQUESTED, APPROVED, REJECTED, VACATED, TRANSFERRED, CANCELLED
+  previousStatus AllocationStatus?
+  newStatus      AllocationStatus
+  reason         String?
+  createdAt      DateTime         @default(now())
+
+  allocation Allocation @relation(fields: [allocationId], references: [id], onDelete: Cascade)
+  actor      User?      @relation(fields: [actorId], references: [id])
+
+  @@index([allocationId])
+  @@map("allocation_history")
+}
+
+model ComplaintHistory {
+  id             String           @id @default(uuid())
+  complaintId    String
+  actorId        String?
+  action         String // CREATED, STATUS_CHANGED, ASSIGNED, REOPENED, COMMENT_ADDED
+  previousStatus ComplaintStatus?
+  newStatus      ComplaintStatus?
+  note           String?
+  createdAt      DateTime         @default(now())
+
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  actor     User?     @relation(fields: [actorId], references: [id])
+
+  @@index([complaintId])
+  @@map("complaint_history")
+}
+
+model HostelFAQ {
+  id        String   @id @default(uuid())
+  question  String
+  answer    String
+  intent    String // e.g. room_request_help, complaint_help, wifi
+  keywords  String[] @default([])
+  isPublished Boolean @default(true)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([intent])
+  @@map("hostel_faqs")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  actorId    String? // null for system events
+  action     String // e.g. ROOM_CREATED, ALLOCATION_APPROVED, USER_DEACTIVATED
+  entityType String // e.g. Room, Allocation, Complaint, User
+  entityId   String?
+  metadata   Json? // sanitized: never passwords, tokens, or secrets
+  createdAt  DateTime @default(now())
+
+  actor User? @relation(fields: [actorId], references: [id])
+
+  @@index([entityType, entityId])
+  @@index([actorId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

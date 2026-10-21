@@ -1,0 +1,24 @@
+# dependencies
+node_modules/
+
+# environment & secrets — NEVER commit
+.env
+.env.local
+.env.*.local
+
+# logs
+*.log
+logs/
+
+# prisma generated client
+prisma/generated/
+
+# coverage / test artifacts
+coverage/
+.nyc_output/
+
+# editor / OS noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

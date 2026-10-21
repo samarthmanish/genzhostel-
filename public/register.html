@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Create Account — Hostel Management System</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <script src="/js/theme.js"></script>
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <a class="site-logo" href="/">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2.5" y="4" width="19" height="16" rx="4" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M8 20V9.5A2.5 2.5 0 0 1 10.5 7h3A2.5 2.5 0 0 1 16 9.5V20" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="12" cy="12.5" r="1.6" fill="currentColor"/>
+          </svg>
+          Hostel System
+        </a>
+      </div>
+      <h1>Create your account</h1>
+      <p class="auth-sub">Student self-registration. Warden and Admin accounts are created by an administrator.</p>
+
+      <div class="form-banner" id="banner" role="alert"></div>
+
+      <form id="register-form" novalidate>
+        <div class="form-field">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" name="fullName" autocomplete="name" placeholder="e.g. Priya Sharma" required>
+          <p class="error-text" id="fullName-error" role="alert"></p>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.edu" required>
+            <p class="error-text" id="email-error" role="alert"></p>
+          </div>
+          <div class="form-field">
+            <label for="studentId">Student ID</label>
+            <input type="text" id="studentId" name="studentId" placeholder="STU-2024-001">
+            <p class="help-text">Optional now — an admin can add it later.</p>
+            <p class="error-text" id="studentId-error" role="alert"></p>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="course">Course</label>
+            <input type="text" id="course" name="course" placeholder="e.g. B.Tech CSE">
+            <p class="error-text" id="course-error" role="alert"></p>
+          </div>
+          <div class="form-field">
+            <label for="yearOfStudy">Year of study</label>
+            <select id="yearOfStudy" name="yearOfStudy">
+              <option value="">Select…</option>
+              <option value="1">1st year</option>
+              <option value="2">2nd year</option>
+              <option value="3">3rd year</option>
+              <option value="4">4th year</option>
+            </select>
+            <p class="error-text" id="yearOfStudy-error" role="alert"></p>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone (optional)</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+91-90000-00000">
+          <p class="error-text" id="phone-error" role="alert"></p>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input type="password" id="password" name="password" autocomplete="new-password" placeholder="Min 8 characters" required>
+              <button type="button" class="password-toggle" data-toggle-for="password" aria-label="Show password" aria-pressed="false">Show</button>
+            </div>
+            <p class="error-text" id="password-error" role="alert"></p>
+          </div>
+          <div class="form-field">
+            <label for="confirmPassword">Confirm password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" placeholder="Repeat password" required>
+            <p class="error-text" id="confirmPassword-error" role="alert"></p>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit-btn">Create account</button>
+      </form>
+
+      <p class="auth-alt">Already registered? <a href="/login.html">Sign in</a></p>
+    </div>
+  </div>
+  <script type="module" src="/js/pages/register.js"></script>
+</body>
+</html>

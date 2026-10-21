@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Sign In — Hostel Management System</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <script src="/js/theme.js"></script>
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <a class="site-logo" href="/">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2.5" y="4" width="19" height="16" rx="4" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M8 20V9.5A2.5 2.5 0 0 1 10.5 7h3A2.5 2.5 0 0 1 16 9.5V20" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="12" cy="12.5" r="1.6" fill="currentColor"/>
+          </svg>
+          Hostel System
+        </a>
+      </div>
+      <h1>Sign in</h1>
+      <p class="auth-sub">Use your hostel account to continue.</p>
+
+      <div class="form-banner" id="banner" role="alert"></div>
+
+      <form id="login-form" novalidate>
+        <div class="form-field">
+          <label for="identifier">Email or Student ID</label>
+          <input type="text" id="identifier" name="identifier" autocomplete="username"
+                 placeholder="you@example.edu or STU-2024-001" required>
+          <p class="error-text" id="identifier-error" role="alert"></p>
+        </div>
+        <div class="form-field">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input type="password" id="password" name="password" autocomplete="current-password"
+                   placeholder="Your password" required>
+            <button type="button" class="password-toggle" id="toggle-password"
+                    aria-label="Show password" aria-pressed="false">Show</button>
+          </div>
+          <p class="error-text" id="password-error" role="alert"></p>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit-btn">Sign in</button>
+      </form>
+
+      <p class="auth-alt" id="register-alt" hidden>
+        New student? <a href="/register.html">Create your account</a>
+      </p>
+
+      <div class="demo-hint" id="demo-hint" hidden>
+        <strong>Development demo accounts</strong> (fake seeded data):<br>
+        Student <code>student@hostel.local</code> · Warden <code>warden@hostel.local</code> ·
+        Admin <code>admin@hostel.local</code> — password <code>Demo@1234</code>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/js/pages/login.js"></script>
+</body>
+</html>
